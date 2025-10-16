@@ -1,0 +1,28 @@
+pageInfo:
+  title: Homelab Dashboard
+
+appConfig:
+  theme: material
+
+sections:
+- name: Infra
+  icon: fas fa-network-wired
+  items:
+    - title: Proxmox
+      icon: si-proxmox
+      url: https://192.168.0.227:8006/
+    - title: Pi-Hole
+      icon: si-pihole
+      url: https://192.168.0.100/admin
+    - title: Postgres
+      icon: si-postgresql
+      url: https://db.apps.home/
+- name: Tools
+  icon: fas fa-toolbox
+  items:
+    - title: Notes
+      icon: fas fa-book
+      url: https://notes.apps.home/
+    - title: Bookmarks
+      icon: fas fa-link
+      url: https://bookmarks.apps.home/

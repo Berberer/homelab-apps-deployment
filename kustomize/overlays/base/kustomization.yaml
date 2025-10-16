@@ -1,0 +1,19 @@
+resources:
+  - ../../base/ssl
+  - ../../base/postgres
+  - ../../base/pgweb
+
+secretGenerator:
+  - name: ca-key-pair-secret
+    namespace: homelab
+    files:
+      - tls.crt=certs/ca.crt.secrets
+      - tls.key=certs/ca.key.secrets
+    type: kubernetes.io/tls
+    options:
+      disableNameSuffixHash: true
+  - name: pg-secrets
+    namespace: homelab
+    envs:
+      - .env.postgres.secrets
+    type: Opaque

@@ -1,0 +1,3 @@
+resources:
+  - cert-issuer.yaml
+  - tls-cert.yaml

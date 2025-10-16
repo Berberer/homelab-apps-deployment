@@ -1,0 +1,22 @@
+resources:
+  - ../../base/dashy
+  - ../../base/memos
+  - ../../base/linkding
+
+configMapGenerator:
+  - name: dashy-config
+    namespace: homelab
+    files:
+      - conf.yml=dashy-config.yaml
+
+secretGenerator:
+  - name: memos-secrets
+    namespace: homelab
+    envs:
+      - .env.memos.secrets
+    type: Opaque
+  - name: linkding-secrets
+    namespace: homelab
+    envs:
+      - .env.linkding.secrets
+    type: Opaque

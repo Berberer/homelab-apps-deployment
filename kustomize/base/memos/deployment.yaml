@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memos
+  namespace: homelab
+  labels:
+    app: memos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memos
+  template:
+    metadata:
+      labels:
+        app: memos
+    spec:
+      containers:
+        - name: memos
+          image: neosmemo/memos:stable
+          env:
+            - name: MEMOS_PORT
+              value: "5230"
+            - name: MEMOS_DRIVER
+              value: "postgres"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: memos-secrets
+                  key: MEMOS_DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: memos-secrets
+                  key: MEMOS_DB_PASSWORD
+            - name: MEMOS_DSN
+              value: "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@postgres:5432/memos?sslmode=disable"
+            - name: MEMOS_MODE
+              value: "prod"
+          ports:
+            - containerPort: 5230
+          resources:
+            requests:
+              cpu: "1"
+              memory: "1Gi"
+          volumeMounts:
+            - name: data
+              mountPath: /var/opt/memos
+          readinessProbe:
+            exec:
+              command: ["nc", "-vz", "127.0.0.1", "5230"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+            successThreshold: 1
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: memos-data
+

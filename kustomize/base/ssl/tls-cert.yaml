@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homelab-tls
+  namespace: homelab
+spec:
+  secretName: homelab-tls-cert
+  dnsNames:
+    - "apps.home"
+    - "*.apps.home"
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer
