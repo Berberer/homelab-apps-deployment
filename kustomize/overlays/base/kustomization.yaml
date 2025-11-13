@@ -1,7 +1,7 @@
 resources:
   - ../../base/ssl
   - ../../base/postgres
-  - ../../base/pgweb
+  - ../../base/pgadmin
 
 secretGenerator:
   - name: ca-key-pair-secret
@@ -16,4 +16,9 @@ secretGenerator:
     namespace: homelab
     envs:
       - .env.postgres.secrets
+    type: Opaque
+  - name: pgadmin-secrets
+    namespace: homelab
+    envs:
+      - .env.pgadmin.secrets
     type: Opaque
